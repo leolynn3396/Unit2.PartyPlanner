@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Party Planner</title>
-</head>
-<body>
-    <script src ="index.js"></script>
-    <div id ="create-party">
-         <!-- name, date, time, location, description -->
-          <form action="submit">
-            <label for="title">Party Name</label>
-            <input type="text" name="title">
-            <label for="time">Time</label>
-            <input type="time" name="time">
-            <input type="text" name="location">
-            <input type="text" name="description">
-          </form>
+  </head>
+  <body>
+    <div id="create-party">
+      <!-- name, time, location, description -->
+      <form action="submit">
+        <label>Party Name</label>
+        <input type="text" name="title" />
+        <label>Time</label>
+        <input type="datetime-local" name="date" />
+        <label>Location</label>
+        <input type="text" name="location" />
+        <label>Description</label>
+        <input type="text" name="description" />
+        <button type="submit" name="add-button">Add</button>
+      </form>
+    </div>
 
-    </div>
-    <div id="'display-parties">
-    </div>
-</body>
+    <ul id="display-parties"></ul>
+    <script src="index.js"></script>
+  </body>
 </html>
