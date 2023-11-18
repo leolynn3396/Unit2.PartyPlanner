@@ -69,7 +69,7 @@ document.querySelector("form").addEventListener("submit", (evt) => {
 const deleteParty = async (id) => {
   try {
     const response = await fetch(EVENTS_URI + "/" + id, { method: "DELETE" });
-    const json = response.json();
+    const json = response.json;
     const parties = json.data;
     if (json.error) {
       throw new Error(json.error);
@@ -82,36 +82,38 @@ const deleteParty = async (id) => {
 };
 
 function renderEvents() {
-  console.log("inside renderEvents");
-  console.log(state);
-  if (!state.events || !state.events.length) {
-    partiesElement = document.createElement("div");
-    partiesElement.innerHTML = `<li>No events found</li>`;
-    return;
-  }
+    console.log("inside renderEvents");
+    console.log(state);
+    console.log("state.events.length " + state.events.length);
+    let partyItems;
+    if (state.events.length == 0) {
+        partiesElement = document.createElement("li");
+        partiesElement.innerHTML = `No events found`;
+        partyItems = [partiesElement];
+    } else {
+        partyItems = state.events.map((party) => {
+            console.log("inside partyItems");
+            console.log(party);
+            const partyItem = document.createElement("li");
+            partyItem.classList.add("party");
+            partyItem.innerHTML = `
+                <h2>${party.name}</h2>
+                <p>${party.description}<p>
+                <p>${party.date}</p>
+                <p>${party.location}</p>
+                <p>${party.id}</p>
+                `;
 
-  const partyItems = state.events.map((party) => {
-    console.log("inside partyItems");
-    console.log(party);
-    const partyItem = document.createElement("li");
-    partyItem.classList.add("party");
-    partyItem.innerHTML = `
-        <h2>${party.name}</h2>
-        <p>${party.description}<p>
-        <p>${party.date}</p>
-        <p>${party.location}</p>
-        <p>${party.id}</p>
-        `;
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete Party";
+            partyItem.append(deleteButton);
 
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete Party";
-    partyItem.append(deleteButton);
-
-    deleteButton.addEventListener("click", () => deleteParty(party.id));
-    return partyItem;
-  });
-  console.log(partyItems);
-  partiesList.replaceChildren(...partyItems);
+            deleteButton.addEventListener("click", () => deleteParty(party.id));
+            return partyItem;
+        });
+    }
+    console.log(partyItems);
+    partiesList.replaceChildren(...partyItems);
 }
 
 const init = async () => {
